@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: php_backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/var/www/html
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Rushi@123
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: rushi
+      MYSQL_PASSWORD: Rushi@234
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
