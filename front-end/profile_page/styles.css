@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 50%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    background-color: black;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-left: 160px;
+}
+
+#profile {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#edit-section {
+    margin-top: 30px;
+}
+
+h2 {
+    text-align: center;
+}
+
+input, textarea {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#other-profiles {
+    margin-top: 30px;
+}
+
+#users-list {
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+}
