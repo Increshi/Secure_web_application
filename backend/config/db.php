@@ -10,6 +10,6 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
-    die(json_encode(["error" => "Database connection failed."]));
+    die(json_encode(["error" => "Database connection failed.". $host]));
 }
 ?>

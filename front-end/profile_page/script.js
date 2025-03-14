@@ -22,9 +22,14 @@ const currentUserPassword = '';
 
 // Fetch current profile data
 function fetchProfile() {
-    fetch(`/api/profile/${userId}`)
+    fetch(`http://localhost:8080/index.php?request=get_profile&user_id=${userId}`)
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                console.error('Error fetching profile:', data.error);
+                return;
+            }
+
             profileImg.src = data.imageUrl;
             profileName.textContent = `Name: ${data.name}`;
             profileUsername.textContent = `Username: ${data.username}`;
@@ -69,12 +74,17 @@ profileForm.addEventListener('submit', (event) => {
         formData.append('password', newPassword);
     }
 
-    fetch(`/api/profile/${userId}`, {
+    fetch(`http://localhost:8080/index.php?request=update_profil&user_id=${userId}`, {
         method: 'POST',
         body: formData
     })
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                console.error('Error updating profile:', data.error);
+                errorMessage.textContent = 'Error: Could not update profile.';
+                return;
+            }
             alert('Profile updated successfully!');
             fetchProfile();  // Refresh profile
             errorMessage.textContent = '';  // Clear error message on success
@@ -87,7 +97,7 @@ profileForm.addEventListener('submit', (event) => {
 
 // Fetch list of other users' profiles
 function fetchOtherProfiles() {
-    fetch('/api/users')
+    fetch(`http://localhost:8080/index.php?request=get_profile`)
         .then(response => response.json())
         .then(users => {
             usersList.innerHTML = ''; // Clear previous list

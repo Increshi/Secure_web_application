@@ -10,7 +10,7 @@ document.getElementById('search-btn').addEventListener('click', () => {
 
 // Function to search users
 function searchUsers(query) {
-    const apiUrl = `https://yourapi.com/users/search?q=${query}`;
+    const apiUrl = `http://localhost:8080/index.php?request=search_user&q=${query}`;
     
     fetch(apiUrl)
         .then(response => response.json())
@@ -66,7 +66,14 @@ document.getElementById('transfer-btn').addEventListener('click', () => {
 // Function to handle money transfer
 function transferMoney(receiverId, amount, comment) {
     // Mock API URL for transfer (replace with real API URL)
-    const apiUrl = 'https://yourapi.com/transfer';
+    const apiUrl = `http://localhost:8080/index.php?request=transfer_money`;
+
+    // Ensure the amount is a positive number
+    if (amount <= 0) {
+        alert('Amount must be greater than zero.');
+        return;
+    }
+
     const data = {
         receiverId: receiverId,
         amount: amount,
@@ -85,6 +92,7 @@ function transferMoney(receiverId, amount, comment) {
         if (data.success) {
             alert('Transfer successful!');
             displayTransactionHistory(data.transactionHistory);
+            // fetchTransactionHistory(data.user);
         } else {
             alert('Transfer failed: ' + data.message);
         }
@@ -93,6 +101,26 @@ function transferMoney(receiverId, amount, comment) {
         console.error('Error transferring money:', error);
     });
 }
+
+// // Fetch transaction history
+// function fetchTransactionHistory(userId) {
+//     fetch(`http://localhost:8080/index.php?request=transaction_history&user_id=${userId}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.error) {
+//                 console.error('Error fetching transaction history:', data.error);
+//                 alert('Error: Could not load transaction history.');
+//                 return;
+//             }
+
+//             // Display the transaction history
+//             displayTransactionHistory(data.transactions);
+//         })
+//         .catch(error => {
+//             console.error('Error fetching transaction history:', error);
+//             alert('Error: Could not fetch transaction history.');
+//         });
+// }
 
 // Display transaction history
 function displayTransactionHistory(transactions) {

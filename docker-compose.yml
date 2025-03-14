@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - ./env
     volumes:
       - ./backend:/var/www/html
 
@@ -27,6 +27,17 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  frontend:
+    build: ./front-end  # This points to your front-end directory
+    container_name: frontend_app
+    ports:
+      - "3000:80"  # Exposes frontend on port 3000
+    volumes:
+      - ./front-end:/usr/share/nginx/html  # Maps your frontend files to Nginx's public directory
+    depends_on:
+      - backend
+    restart: always
 
 volumes:
   db_data:

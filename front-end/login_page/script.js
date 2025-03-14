@@ -1,5 +1,5 @@
 // Simulated API Calls
-const apiBaseUrl = 'https://example.com/api'; // Replace with your actual API endpoint
+const apiBaseUrl = 'http://localhost:8080/index.php'; // Replace with your actual API endpoint
 
 // Show the registration form
 function showRegister() {
@@ -25,7 +25,7 @@ document.getElementById('registerFormId').addEventListener('submit', async funct
 
     // Simulate an API call to register the user
     try {
-        const response = await fetch(`${apiBaseUrl}/register`, {
+        const response = await fetch(`${apiBaseUrl}?request=register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
@@ -54,7 +54,7 @@ document.getElementById('loginFormId').addEventListener('submit', async function
 
     // Simulate an API call to login the user
     try {
-        const response = await fetch(`${apiBaseUrl}/login`, {
+        const response = await fetch(`${apiBaseUrl}?request=login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData),
