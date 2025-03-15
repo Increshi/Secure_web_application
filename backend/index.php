@@ -16,7 +16,8 @@ $routes = [
     'transfer_money' => 'api/transfer.php',
     'search_user' => 'api/search.php',
     'transaction_history' => 'api/transactions.php',
-    'logout' => 'api/LogoutController.php'
+    'logout' => 'api/LogoutController.php',
+    'user_info' => 'api/getUserInfo.php'
     
 ];
 

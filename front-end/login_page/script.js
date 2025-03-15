@@ -1,16 +1,32 @@
 // Simulated API Calls
 const apiBaseUrl = 'http://localhost:8080/index.php'; // Replace with your actual API endpoint
 
+// Clear form fields
+window.onload = function() {
+    document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('username').value = '';
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+};
+
 // Show the registration form
 function showRegister() {
     document.getElementById('registerForm').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
+
+    document.getElementById('username').value = ''; // Reset username
+    document.getElementById('email').value = ''; // Reset email
+    document.getElementById('password').value = ''; // Reset password
 }
 
 // Show the login form
 function showLogin() {
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerForm').style.display = 'none';
+
+    document.getElementById('email').value = ''; // Reset email
+    document.getElementById('password').value = ''; // Reset password
 }
 
 // Handle user registration
@@ -62,7 +78,7 @@ document.getElementById('loginFormId').addEventListener('submit', async function
         const data = await response.json();
         
         if (response.ok) {
-            sessionStorage.setItem('user', JSON.stringify(data.user));
+            sessionStorage.setItem('auth_token', data.token);
             // Redirect to user dashboard page
             window.location.href = '../dashboard_page/index.html';
         } else {

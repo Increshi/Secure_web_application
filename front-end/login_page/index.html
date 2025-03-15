@@ -13,9 +13,9 @@
         <div class="form-container" id="registerForm">
             <h2>Register</h2>
             <form id="registerFormId">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="email" id="email" placeholder="Email" required>
-                <input type="password" id="password" placeholder="Password" required>
+                <input type="text" id="username" placeholder="Username" required autocomplete="off">
+                <input type="email" id="email" placeholder="Email" required autocomplete="off">
+                <input type="password" id="password" placeholder="Password" required autocomplete="off">
                 <button type="submit">Register</button>
             </form>
             <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
@@ -25,8 +25,8 @@
         <div class="form-container" id="loginForm" style="display:none;">
             <h2>Login</h2>
             <form id="loginFormId">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
+                <input type="email" id="loginEmail" placeholder="Email" required autocomplete="off">
+                <input type="password" id="loginPassword" placeholder="Password" required autocomplete="off">
                 <button type="submit">Login</button>
             </form>
             <p>Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
