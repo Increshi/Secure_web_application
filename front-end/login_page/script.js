@@ -16,6 +16,7 @@ function showRegister() {
     document.getElementById('loginForm').style.display = 'none';
 
     document.getElementById('username').value = ''; // Reset username
+    document.getElementById('fullname').value = ''; // Reset fullname
     document.getElementById('email').value = ''; // Reset email
     document.getElementById('password').value = ''; // Reset password
 }
@@ -33,11 +34,12 @@ function showLogin() {
 document.getElementById('registerFormId').addEventListener('submit', async function(event) {
     event.preventDefault();
 
+    const fullname = document.getElementById('fullname').value;
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const userData = { username, email, password };
+    const userData = {fullname, username, email, password };
 
     // Simulate an API call to register the user
     try {
