@@ -94,7 +94,7 @@ document.getElementById('loginFormId').addEventListener('submit', async function
 
 // Check if the user is already logged in (session management)
 document.addEventListener('DOMContentLoaded', function() {
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = sessionStorage.getItem('auth_token');
     if (user) {
         // Redirect to dashboard profile page
         window.location.href = '../dashboard_page/index.html';

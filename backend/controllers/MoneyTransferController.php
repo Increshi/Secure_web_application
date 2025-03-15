@@ -34,7 +34,7 @@ class MoneyTransferController {
         }
     }
 
-    public function transferMoney($receiver_id, $amount, $comment) {
+    public function transferMoney($receiver_username, $amount, $comment) {
         if ($amount <= 0) {
             die(json_encode(["error" => "Invalid amount"]));
         }
@@ -51,12 +51,17 @@ class MoneyTransferController {
                 die(json_encode(["error" => "Insufficient balance"]));
             }
 
+            // Fetch receiver ID from receiver username
+            $stmt = $this->pdo->prepare("SELECT id from users WHERE username = ?");
+            $stmt->execute([$receiver_username]);
+            $receiver_id = $stmt->fetchColumn();;
+
             // Deduct from sender
             $stmt = $this->pdo->prepare("UPDATE users SET balance = balance - ? WHERE id = ?");
             $stmt->execute([$amount, $this->user->user_id]);
 
             // Add to receiver
-            $stmt = $this->pdo->prepare("UPDATE users SET balance = balance + ? WHERE username = ?");
+            $stmt = $this->pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
             $stmt->execute([$amount, $receiver_id]);
 
             // Log transaction
@@ -64,7 +69,7 @@ class MoneyTransferController {
             $stmt->execute([$this->user->user_id, $receiver_id, $amount, htmlspecialchars($comment, ENT_QUOTES, 'UTF-8')]);
 
             // Log user activity
-            log_user_activity($this->user->user_id, "Transferred $$amount to user $receiver_id with comment: '$comment'");
+            log_user_activity($this->user->user_id, "Transferred $$amount to user $receiver_username with comment: '$comment'");
 
             $this->pdo->commit();
             echo json_encode(["message" => "Transfer successful"]);

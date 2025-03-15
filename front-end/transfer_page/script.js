@@ -1,11 +1,16 @@
 // Fetch user data on page load
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-query').value = '';
+    loadPage();
+});
+
+function loadPage()
+{
     document.getElementById('amount').value = '';
     document.getElementById('receiver-id').value = '';
     document.getElementById('comment').value = '';
     document.getElementById('transaction-list').innerHTML = ''; // Clear transaction history
-});
+}
 
 // Search users by username or user ID
 document.getElementById('search-btn').addEventListener('click', () => {
@@ -132,10 +137,10 @@ function transferMoney(receiverId, amount, comment) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            alert('Transfer successful!');
-            displayTransactionHistory(data.transactionHistory);
-            // fetchTransactionHistory(data.user);
+        if (data.message == "Transfer successful") {
+            alert(data.message);
+            loadPage();
+            fetchTransactionHistory(token);
         } else {
             alert('Transfer failed: ' + data.message);
         }
@@ -145,25 +150,29 @@ function transferMoney(receiverId, amount, comment) {
     });
 }
 
-// // Fetch transaction history
-// function fetchTransactionHistory(userId) {
-//     fetch(`http://localhost:8080/index.php?request=transaction_history&user_id=${userId}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.error) {
-//                 console.error('Error fetching transaction history:', data.error);
-//                 alert('Error: Could not load transaction history.');
-//                 return;
-//             }
+// Fetch transaction history
+function fetchTransactionHistory(token) {
+    fetch('http://localhost:8080/index.php?request=transaction_history', {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Send token in the authorization header
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Error fetching transaction history:', data.error);
+            alert('Error: Could not load transaction history.');
+            return;
+        }
 
-//             // Display the transaction history
-//             displayTransactionHistory(data.transactions);
-//         })
-//         .catch(error => {
-//             console.error('Error fetching transaction history:', error);
-//             alert('Error: Could not fetch transaction history.');
-//         });
-// }
+        // Display the transaction history
+        displayTransactionHistory(data);
+    })
+    .catch(error => {
+        console.error('Error fetching transaction history:', error);
+        alert('Error: Could not fetch transaction history.');
+    });
+}
 
 // Display transaction history
 function displayTransactionHistory(transactions) {
@@ -178,16 +187,30 @@ function displayTransactionHistory(transactions) {
     transactions.forEach(transaction => {
         const transactionItem = document.createElement('li');
         transactionItem.innerHTML = `
-            <strong>To: ${transaction.receiver}</strong><br>
+            <strong>Sender: ${transaction.sender}</strong><br>
+            <strong>Receiver: ${transaction.receiver}</strong><br>
             Amount: Rs. ${transaction.amount}<br>
             Comment: ${transaction.comment || 'No comment'}<br>
-            Date: ${new Date(transaction.date).toLocaleString()}
+            Date: ${new Date(transaction.timestamp).toLocaleString()}<br>
         `;
         historyList.appendChild(transactionItem);
     });
 }
 
+document.getElementById('transaction-history-btn').addEventListener('click', () => {
+    
+    const token = sessionStorage.getItem('auth_token'); // Or retrieve it from wherever you're storing the token
+    if (!token) {
+        alert("Unauthorized: Missing token");
+        return;
+    }
+
+    fetchTransactionHistory(token);
+
+});
+
+
 // Go back to the previous page
 function goBack() {
-    window.history.back();
+    window.location.href = '../dashboard_page/index.html';
 }
