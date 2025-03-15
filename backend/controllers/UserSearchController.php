@@ -1,4 +1,15 @@
 <?php
+
+header('Access-Control-Allow-Origin: http://localhost:3000'); // Replace with your frontend URL
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Handle OPTIONS request (preflight)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/auth.php';
 require_once __DIR__ . '/../config/logger.php';
@@ -30,7 +41,7 @@ class UserSearchController {
         // if (headers_sent($file, $line)) {
         //     die("Headers already sent in $file on line $line");
         // }
-        $stmt = $this->pdo->prepare("SELECT id, username, email FROM users WHERE username LIKE ? OR id = ?");
+        $stmt = $this->pdo->prepare("SELECT id, username, email FROM users WHERE username LIKE ? OR email LIKE ?");
         $stmt->execute(["%$query%", $query]);
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

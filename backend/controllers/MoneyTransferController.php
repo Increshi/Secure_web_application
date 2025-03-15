@@ -1,4 +1,15 @@
 <?php
+
+header('Access-Control-Allow-Origin: http://localhost:3000'); // Replace with your frontend URL
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Handle OPTIONS request (preflight)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/auth.php';
 require_once __DIR__ . '/../config/logger.php';
@@ -45,7 +56,7 @@ class MoneyTransferController {
             $stmt->execute([$amount, $this->user->user_id]);
 
             // Add to receiver
-            $stmt = $this->pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
+            $stmt = $this->pdo->prepare("UPDATE users SET balance = balance + ? WHERE username = ?");
             $stmt->execute([$amount, $receiver_id]);
 
             // Log transaction
@@ -61,7 +72,9 @@ class MoneyTransferController {
         } catch (Exception $e) {
             $this->pdo->rollBack();
             http_response_code(500);
-            echo json_encode(["error" => "Transaction failed"]);
+            echo json_encode(["error" => "Transaction failed",
+            "message" => $e->getMessage(),  // Include the error message
+            "stack_trace" => $e->getTraceAsString()]);
         }
     }
 }

@@ -1,3 +1,12 @@
+// Fetch user data on page load
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('search-query').value = '';
+    document.getElementById('amount').value = '';
+    document.getElementById('receiver-id').value = '';
+    document.getElementById('comment').value = '';
+    document.getElementById('transaction-list').innerHTML = ''; // Clear transaction history
+});
+
 // Search users by username or user ID
 document.getElementById('search-btn').addEventListener('click', () => {
     const searchQuery = document.getElementById('search-query').value.trim();
@@ -10,16 +19,37 @@ document.getElementById('search-btn').addEventListener('click', () => {
 
 // Function to search users
 function searchUsers(query) {
-    const apiUrl = `http://localhost:8080/index.php?request=search_user&q=${query}`;
+    const apiUrl = `http://localhost:8080/index.php?request=search_user&query=${query}`;
+
+    const token = sessionStorage.getItem('auth_token');
+
+    if (!token) {
+        alert("Unauthorized: Missing token");
+        return;
+    }
     
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error fetching search results.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            alert(`Error: ${data.error}`);
+        } else {
             displaySearchResults(data);
-        })
-        .catch(error => {
-            console.error("Error fetching search results:", error);
-        });
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching search results:", error);
+    });
 }
 
 // Display search results
@@ -36,16 +66,16 @@ function displaySearchResults(users) {
         const userDiv = document.createElement('div');
         userDiv.classList.add('search-result-item');
         userDiv.innerHTML = `
-            <p><strong>${user.name}</strong> (ID: ${user.id})</p>
-            <button onclick="setReceiver('${user.id}', '${user.name}')">Select</button>
+            <p><strong>${user.username}</strong> (Email: ${user.email})</p>
+            <button onclick="setReceiver('${user.username}')">Select</button>
         `;
         resultsDiv.appendChild(userDiv);
     });
 }
 
 // Set selected user as receiver for transfer
-function setReceiver(userId, userName) {
-    document.getElementById('receiver-id').value = userId;
+function setReceiver(userName) {
+    document.getElementById('receiver-id').value = userName;
     alert(`Selected receiver: ${userName}`);
 }
 
@@ -55,8 +85,14 @@ document.getElementById('transfer-btn').addEventListener('click', () => {
     const receiverId = document.getElementById('receiver-id').value;
     const comment = document.getElementById('comment').value.trim();
     
-    if (!receiverId || !amount || amount <= 0) {
+    if (!receiverId) {
         alert("Please provide a valid receiver ID and amount.");
+        return;
+    }
+
+    if(!amount || isNaN(amount) || amount <= 0 )
+    {
+        alert("Please provide a valid amount.");
         return;
     }
 
@@ -80,10 +116,17 @@ function transferMoney(receiverId, amount, comment) {
         comment: comment
     };
 
+    const token = sessionStorage.getItem('auth_token'); // Or retrieve it from wherever you're storing the token
+    if (!token) {
+        alert("Unauthorized: Missing token");
+        return;
+    }
+
     fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Authorization header
         },
         body: JSON.stringify(data)
     })
