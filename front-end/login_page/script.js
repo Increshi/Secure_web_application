@@ -52,7 +52,7 @@ document.getElementById('registerFormId').addEventListener('submit', async funct
             alert('Registration successful! Please login.');
             showLogin();
         } else {
-            alert(data.message || 'Something went wrong.');
+            alert(data.error || 'Something went wrong.');
         }
     } catch (error) {
         alert('Error during registration: ' + error.message);
@@ -82,7 +82,7 @@ document.getElementById('loginFormId').addEventListener('submit', async function
             // Redirect to user dashboard page
             window.location.href = '../dashboard_page/index.html';
         } else {
-            alert(data.message || 'Login failed.');
+            alert(data.error || 'Login failed.');
         }
     } catch (error) {
         alert('Error during login: ' + error.message);
