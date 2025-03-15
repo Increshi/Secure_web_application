@@ -17,7 +17,9 @@ $routes = [
     'search_user' => 'api/search.php',
     'transaction_history' => 'api/transactions.php',
     'logout' => 'api/LogoutController.php',
-    'user_info' => 'api/getUserInfo.php'
+    'user_info' => 'api/getUserInfo.php',
+    'user_prof' => 'api/getUserprofile.php',
+    'update_prof' => 'api/getUserprofile.php'
     
 ];
 

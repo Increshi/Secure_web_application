@@ -43,7 +43,7 @@ class UserInfoController {
     }
 
     // Fetch and return user info from the database
-    public function getUserInfo() {
+    public function getUserProfile() {
         // Retrieve user ID from the decoded JWT payload
         $user_id = $this->user->user_id;
 
@@ -57,7 +57,7 @@ class UserInfoController {
         }
 
         // Fetch user information from the database using the user ID
-        $stmt = $this->pdo->prepare("SELECT id, username, balance, profile_image FROM users WHERE id = ?");
+        $stmt = $this->pdo->prepare("SELECT id, name, username, email, balance, profile_image, biography FROM users WHERE id = ?");
         $stmt->execute([$user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -65,9 +65,12 @@ class UserInfoController {
             // Return the user info as a JSON response
             // Only send non-sensitive data
     $response = [
+        "fullname" => $user['name'],
         "username" => $user['username'],
         "balance" => $user['balance'],
-        "profile_image" => $user['profile_image']
+        "profile_image" => $user['profile_image'],
+        "bio" => $user['biography'],
+        "email" => $user['email']
     ];
     
     echo json_encode($response);  // Send the filtered response
@@ -77,9 +80,45 @@ class UserInfoController {
         }
     }
 
+    public function updateUserProfile() {
+        $user_id = $this->user->user_id;
+
+        // Check if the token is blacklisted
+        $stmt = $this->pdo->prepare("SELECT * FROM token_blacklist WHERE token = ?");
+        $stmt->execute([$this->token]);
+        if ($stmt->rowCount() > 0) {
+            http_response_code(401); // Unauthorized
+            echo json_encode(["error" => "Token is blacklisted"]);
+            exit();
+        }
+
+        // $data = file_get_contents("php://input");
+        // $decodedData = json_decode($data, true);
+        // $fname = $decodedData['name'];
+        // $fullname = $_POST['name'];
+        // $response = ['uname' => $fname];
+
+        // $response = [ 'uname' => 'Vignesh 123'];
+        
+        // echo json_encode($response);
+
+        // fill here to get and process the data;
+    }
+
+
 }
 
 // Handle the request
 $userInfoController = new UserInfoController($pdo);
-$userInfoController->getUserInfo();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $userInfoController->getUserProfile();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userInfoController->updateUserProfile();
+    // $fullname = $_POST['name'];
+
+    // $response = [ 'uname' => $fullname];
+
+}
 ?>

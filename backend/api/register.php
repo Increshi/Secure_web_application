@@ -48,7 +48,7 @@ try {
     echo json_encode(["message" => "User registered successfully"]);
 } catch (PDOException $e) {
     http_response_code(400);
-    echo json_encode(["error" => "Database Error Occured"]);
-    // echo json_encode(["error" => $e->getMessage()]);
+    // echo json_encode(["error" => "Database Error Occured"]);
+    echo json_encode(["error" => $e->getMessage()]);
 }
 ?>

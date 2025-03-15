@@ -54,8 +54,8 @@ async function fetchUserData() {
     }
 }
 
-const profileForm = document.getElementById('profileForm');
 
+// Handle form submission to update profile
 profileForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const auth_token = sessionStorage.getItem('auth_token');
@@ -67,17 +67,14 @@ profileForm.addEventListener('submit', (event) => {
     const currPassword = document.getElementById('currentPassword')?.value;
     const newPassword = document.getElementById('Npassword')?.value;
 
-    const formData = new FormData();
-    formData.append('name', fullname);
-    formData.append('email', newEmail);
-    formData.append('bio', newBio);
-    formData.append('currPass', currPassword);
-    if (newImage) {
-        formData.append('image', newImage);
-    }
-    if (newPassword) {
-        formData.append('password', newPassword);
-    }
+    // // Check if the current password is correct
+    // if (currentPasswordIP !== currentUserPassword) {
+    //     errorMessage.textContent = 'Error: Current password is incorrect.';
+    //     return; // Exit if the password is incorrect
+    // }
+
+    const updateData = {fullname, newEmail, newBio, newImage, currPassword, newPassword};
+    // console.log(JSON.stringify(userData))
 
     fetch(`http://localhost:8080/index.php?request=update_prof`, {
         method: 'POST',
@@ -85,23 +82,26 @@ profileForm.addEventListener('submit', (event) => {
             'Authorization': `Bearer ${auth_token}`,
             'Content-Type': 'application/json'
         },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.uname);
+        body: JSON.stringify(updateData)
     });
-    // fill here to get the response
-
-    console.log("FormData contents:");
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-    }
-
-
-
-    alert("DONE!!");
+        // .then(response => response.json())
+        // .then(data => {
+        //     if (data.error) {
+        //         console.error('Error updating profile:', data.error);
+        //         errorMessage.textContent = 'Error: Could not update profile.';
+        //         return;
+        //     }
+        //     consolde
+        //     alert('Profile updated successfully!');
+        //     fetchProfile();  // Refresh profile
+        //     errorMessage.textContent = '';  // Clear error message on success
+        // })
+        // .catch(error => {
+        //     console.error('Error updating profile:', error);
+        //     errorMessage.textContent = 'Error: Could not update profile.';
+        // });
 });
+
 
 // Go back to the previous page
 function goBack() {
