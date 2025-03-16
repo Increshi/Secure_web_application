@@ -76,12 +76,13 @@ class ProfileController {
         $stmt->execute([$user_id]);
         $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            echo json_encode($user);
-        } else {
-            http_response_code(404);
-            echo json_encode(["message" => "User not found"]);
-        }
+        // if ($user) {
+        //     echo json_encode($user);
+        // } else {
+        //     // http_response_code(404);
+        //     echo json_encode($user);
+        // }
+        echo json_encode($user);
     }
 
     // Update user profile (excluding username)

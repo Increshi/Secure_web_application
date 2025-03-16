@@ -106,7 +106,14 @@ function fetchOtherProfiles() {
     })
         .then(response => response.json())
         .then(users => {
+
             usersList.innerHTML = ''; // Clear previous list
+            
+            if (users.length === 0) {
+                usersList.innerHTML = '<li>No users available.</li>';
+                return;
+            }
+            
             users.forEach(user => {
                 const imageUrl = fetchProfileImage(user.profile_image);
                 const userElement = document.createElement('li');
