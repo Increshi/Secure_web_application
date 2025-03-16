@@ -19,10 +19,6 @@
         
         <div id="profile">
             <img id="profile-img" src="../images/user_image.jpg" alt="Profile Image" class="profile-image" />
-            <p id="profile-name"></p>
-            <p id="profile-username"></p>
-            <p id="profile-email"></p>
-            <p id="profile-bio"></p>
         </div>
 
         <div id="edit-section">
@@ -42,13 +38,13 @@
                 <br>
                 <label for="file">Upload Profile Image:</label>
                 <input type="file" id="file" accept="image/*">
-                <br>
+                <!-- <br>
                 <label for="current-password">Current Password:</label>
                 <input type="password" id="current-password" placeholder="Current Password">
                 <br>
                 <label for="password">New Password:</label>
                 <input type="password" id="password" placeholder="New Password">
-                <br>
+                <br> -->
                 <button type="submit">Update Profile</button>
             </form>
         </div>
@@ -56,7 +52,7 @@
         <div id="other-profiles">
             <h2>Other Users</h2>
             <button onclick="fetchOtherProfiles()">View Other Profiles</button>
-            <div id="users-list"></div>
+            <ul id="users-list"></ul>
         </div>
     </div>
 

@@ -1,4 +1,15 @@
 <?php
+
+header('Access-Control-Allow-Origin: http://localhost:3000'); // Replace with your frontend URL
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+// Handle OPTIONS request (preflight)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/auth.php';
 require_once __DIR__ . '/../config/logger.php';
@@ -23,7 +34,7 @@ class MoneyTransferController {
         }
     }
 
-    public function transferMoney($receiver_id, $amount, $comment) {
+    public function transferMoney($receiver_username, $amount, $comment) {
         if ($amount <= 0) {
             die(json_encode(["error" => "Invalid amount"]));
         }
@@ -40,6 +51,11 @@ class MoneyTransferController {
                 die(json_encode(["error" => "Insufficient balance"]));
             }
 
+            // Fetch receiver ID from receiver username
+            $stmt = $this->pdo->prepare("SELECT id from users WHERE username = ?");
+            $stmt->execute([$receiver_username]);
+            $receiver_id = $stmt->fetchColumn();;
+
             // Deduct from sender
             $stmt = $this->pdo->prepare("UPDATE users SET balance = balance - ? WHERE id = ?");
             $stmt->execute([$amount, $this->user->user_id]);
@@ -53,7 +69,7 @@ class MoneyTransferController {
             $stmt->execute([$this->user->user_id, $receiver_id, $amount, htmlspecialchars($comment, ENT_QUOTES, 'UTF-8')]);
 
             // Log user activity
-            log_user_activity($this->user->user_id, "Transferred $$amount to user $receiver_id with comment: '$comment'");
+            log_user_activity($this->user->user_id, "Transferred $$amount to user $receiver_username with comment: '$comment'");
 
             $this->pdo->commit();
             echo json_encode(["message" => "Transfer successful"]);
@@ -61,7 +77,9 @@ class MoneyTransferController {
         } catch (Exception $e) {
             $this->pdo->rollBack();
             http_response_code(500);
-            echo json_encode(["error" => "Transaction failed"]);
+            echo json_encode(["error" => "Transaction failed",
+            "message" => $e->getMessage(),  // Include the error message
+            "stack_trace" => $e->getTraceAsString()]);
         }
     }
 }

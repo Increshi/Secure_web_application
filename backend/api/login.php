@@ -21,6 +21,8 @@ if ($user && password_verify($password, $user['password'])) {
     $token = generate_jwt($user['id'], $user['username']); // Generate JWT token
     echo json_encode(["token" => $token]);
 } else {
+    // Set HTTP status code to 401 Unauthorized for invalid credentials
+    http_response_code(401); // Unauthorized
     echo json_encode(["error" => "Invalid credentials"]);
 }
 ?>

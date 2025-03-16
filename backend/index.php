@@ -1,6 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // Get the requested API route
 $request = $_GET['request'] ?? '';
@@ -14,7 +16,9 @@ $routes = [
     'transfer_money' => 'api/transfer.php',
     'search_user' => 'api/search.php',
     'transaction_history' => 'api/transactions.php',
-    'logout' => 'api/LogoutController.php'
+    'logout' => 'api/LogoutController.php',
+    'user_info' => 'api/getUserInfo.php',
+    'get_image' => 'api/getImage.php'
     
 ];
 
