@@ -20,7 +20,7 @@ if (!$data || !isset($data['fullname'], $data['username'], $data['email'], $data
     die(json_encode(["error" => "Invalid input"]));
 }
 
-$fullname = htmlspecialchars($data['username'], ENT_QUOTES, 'UTF-8');
+$fullname = htmlspecialchars($data['fullname'], ENT_QUOTES, 'UTF-8');
 $username = htmlspecialchars($data['username'], ENT_QUOTES, 'UTF-8'); // Prevents XSS
 $email = filter_var($data['email'], FILTER_VALIDATE_EMAIL);
 $password = password_hash($data['password'], PASSWORD_BCRYPT);

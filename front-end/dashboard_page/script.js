@@ -24,10 +24,29 @@ async function fetchUserData() {
                 console.log('User Info:', data);
                 // Handle user data (e.g., display it in the UI)
                 document.getElementById('user-name').textContent = data.username;
+
                 if(data.profile_image)
                 {
-                    document.getElementById('user-image').src = data.profile_image;
+                    // Using fetch to request the image
+                    fetch(`http://localhost:8080/index.php?request=get_image.php&image=${data.profile_image}`,{
+                        method: 'GET'
+                    })
+                    .then(response => {
+                    if (response.ok) {
+                        return response.blob(); // Get the image as a Blob
+                    }
+                    throw new Error("Image not found");
+                    })
+                    .then(imageBlob => {
+                    // Create an object URL for the image
+                    const imageUrl = URL.createObjectURL(imageBlob);
+                    document.getElementById('user-image').src = imageUrl;
+                    })
+                    .catch(error => {
+                    console.error("Error fetching image:", error);
+                    });
                 }
+
                 document.getElementById('user-balance').textContent = `Rs.${data.balance}`;
 
             } else {
