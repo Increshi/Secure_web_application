@@ -28,7 +28,7 @@ async function fetchUserData() {
                 if(data.profile_image)
                 {
                     // Using fetch to request the image
-                    fetch(`http://localhost:8080/index.php?request=get_image.php&image=${data.profile_image}`,{
+                    fetch(`http://localhost:8080/index.php?request=get_image&image=${data.profile_image}`,{
                         method: 'GET'
                     })
                     .then(response => {
