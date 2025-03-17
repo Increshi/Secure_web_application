@@ -108,10 +108,9 @@ function fetchOtherProfiles() {
             }
             
             users.forEach(user => {
-                const imageUrl = fetchProfileImage(user.profile_image);
+                // const imageUrl = fetchProfileImage(user.profile_image);
                 const userElement = document.createElement('li');
                 userElement.innerHTML = `
-                    <img src="${imageUrl}" alt="${user.name}" class="profile-image" /><br>
                     <strong>${user.name}</strong><br>
                     <strong>${user.username}</strong><br>
                     <strong>${user.email}</strong><br>
