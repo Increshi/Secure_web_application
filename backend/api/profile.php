@@ -90,7 +90,6 @@ class ProfileController {
         $name = $_POST['name'] ?? '';
         $bio = $_POST['biography'] ?? '';
         $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
 
         if ($bio != '') {
             $bio = htmlspecialchars($bio, ENT_QUOTES, 'UTF-8'); // Prevent XSS
@@ -109,13 +108,7 @@ class ProfileController {
             $stmt = $this->pdo->prepare("UPDATE users SET email = ? WHERE id = ?");
             $stmt->execute([$email, $this->user_id]);
         }
-
-        if ($password != '') {
-            $password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8'); // Prevent XSS
-            $stmt = $this->pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-            $stmt->execute([$password, $this->user_id]);
-        }
-
+        
         if (!empty($_FILES['profile_image']['name'])) {
             $this->uploadProfileImage($_FILES['profile_image']);
         }

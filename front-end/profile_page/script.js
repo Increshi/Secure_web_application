@@ -5,16 +5,13 @@ const usernameInput = document.getElementById('username');
 const emailInput = document.getElementById('email');
 const bioInput = document.getElementById('bio');
 const fileInput = document.getElementById('file');
-// const currentPasswordInput = document.getElementById('current-password');
-// const passwordInput = document.getElementById('password');
 const usersList = document.getElementById('users-list');
 const errorMessage = document.createElement('div'); // Error message element
 errorMessage.classList.add('error-message');
 document.body.appendChild(errorMessage);
 
-// Simulating a logged-in user ID and current password
+// Simulating a logged-in user ID
 const token = sessionStorage.getItem('auth_token');
-// var currentUserPassword = '';
 
 // Fetch current profile data
 
@@ -56,8 +53,6 @@ profileForm.addEventListener('submit', (event) => {
     const email = emailInput.value;
     const bio = bioInput.value;
     const image = fileInput.files[0];
-    // const currentPassword = currentPasswordInput.value;
-    // const newPassword = passwordInput.value;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -66,14 +61,6 @@ profileForm.addEventListener('submit', (event) => {
     if (image) {
         formData.append('profile_image', image);
     }
-    // if (newPassword) {
-    //     // Check if the current password is correct
-    //     if (currentPassword && currentPassword !== currentUserPassword) {
-    //         errorMessage.textContent = 'Error: Current password is incorrect.';
-    //         return; // Exit if the password is incorrect
-    //     }
-    //     formData.append('password', newPassword);
-    // }
 
     fetch('http://localhost:8080/index.php?request=update_profile', {
         method: 'POST',
