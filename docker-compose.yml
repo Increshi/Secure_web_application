@@ -29,15 +29,29 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   frontend:
-    build: ./front-end  # This points to your front-end directory
+    build: ./front-end
     container_name: frontend_app
     ports:
-      - "3000:80"  # Exposes frontend on port 3000
+      - "3000:80"
     volumes:
-      - ./front-end:/usr/share/nginx/html  # Maps your frontend files to Nginx's public directory
+      - ./front-end:/usr/share/nginx/html
     depends_on:
       - backend
     restart: always
+
+  user_setup:
+    build: ./user_setup
+    container_name: user_setup
+    depends_on:
+      - db
+      - backend
+    environment:
+      MYSQL_HOST: mysql_db
+      MYSQL_PORT: 3306
+      MYSQL_USER: rushi
+      MYSQL_PASSWORD: Rushi@234
+      MYSQL_DATABASE: app_db
+    restart: "no"
 
 volumes:
   db_data:
