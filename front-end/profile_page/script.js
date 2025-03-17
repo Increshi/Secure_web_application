@@ -76,6 +76,10 @@ profileForm.addEventListener('submit', (event) => {
                 errorMessage.textContent = 'Error: Could not update profile.';
                 return;
             }
+            if(data.message == "File upload failed")
+            {
+                alert("File upload failed");
+            }
             alert('Profile updated successfully!');
             fetchProfile();  // Refresh profile
             errorMessage.textContent = '';  // Clear error message on success
