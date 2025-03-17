@@ -7,8 +7,6 @@ Docker is configured to create containers for frtont-end, back-end and database.
 Run the compose yaml file to start the containers using docker command:
 docker-compose up --build -d
 
-Configure the csv file with fields to create accounts automatically before running the docker command.
-
 Access the application using localhost:3000.
 
 Resources used to implement the application:
@@ -16,3 +14,11 @@ Resources used to implement the application:
 2. Udemy
 3. https://owasp.org/www-community/attacks
 4. Chatgpt
+
+Individual contributions:
+
+Rushikeshwar Reddy Payasam - Developed front-end and back-end for login page and dashboard page and testing
+Yedla Jagadish Kumar -  Developed front-end and back-end for login page and dashboard page and testing
+Sriram Dharmarajan - Developed front-end and back-end for profile page and transfer money page and testing
+Madhan V - Developed front-end and back-end for profile page and trasfer money page and testing
+Vignesh S - Developed front-end and back-end for profile page and trasfer money page and testing
