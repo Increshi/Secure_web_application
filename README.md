@@ -5,16 +5,26 @@ Department of Computer Science and Engineering
 TEAM Members:
 Rushikeshwar Reddy Payasam - CS24MTECH11018
 Yedla Jagadish Kumar - CS24MTECH11022
-Sriram Dharmarajan - CS25MTECH02002
 Madhan V - CS24MTECH11021
 Vignesh S - CS24MTECH12007
+Sriram Dharmarajan - CS25MTECH02002
 
 Docker is configured to create containers for frtont-end, back-end and database.
 
 Run the compose yaml file to start the containers using docker command:
 docker-compose up --build -d
 
-Access the application using localhost:3000.
+To check for database,open new terminal and use command:
+docker exec -it mysql_db mysql -u rushi -p
+enter password: Rushi@234
+It will open sql interface :- 
+use app_db; .
+
+Finally to close terminal run : docker-compose down
+
+Access the front end application using localhost:3000.
+Access the back end application using localhost:8080.
+
 
 Resources used to implement the application:
 1. GeeksForGeeks
@@ -26,6 +36,6 @@ Individual contributions:
 
 Rushikeshwar Reddy Payasam - Developed front-end and back-end for login page and dashboard page and testing
 Yedla Jagadish Kumar -  Developed front-end and back-end for login page and dashboard page and testing
-Sriram Dharmarajan - Developed front-end and back-end for profile page and transfer money page and testing
 Madhan V - Developed front-end and back-end for profile page and trasfer money page and testing
 Vignesh S - Developed front-end and back-end for profile page and trasfer money page and testing
+Sriram Dharmarajan - Developed front-end and back-end for profile page and transfer money page and testing
