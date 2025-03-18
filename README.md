@@ -23,7 +23,7 @@ docker-compose up --build -d
 ```
 docker exec -it mysql_db mysql -u rushi -p
 ```
-Enter password: `Rushi@234`
+
 
 It will open the SQL interface. Then run:
 ```
