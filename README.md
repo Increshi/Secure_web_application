@@ -36,7 +36,7 @@ docker-compose down
 ```
 
 ## Access Information
-- Access the front-end application: `https://localhost:443/`
+- Access the front-end application: `https://localhost:3000/`
 - Access the back-end application: `localhost:8080`
 
 ## Resources Used
