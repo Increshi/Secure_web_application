@@ -10,7 +10,7 @@ async function fetchUserData() {
 
     if(auth_token) {
         try {
-            const response = await fetch('http://localhost:8080/index.php?request=user_info', {
+            const response = await fetch('https://localhost:8080/index.php?request=user_info', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${auth_token}`,
@@ -28,7 +28,7 @@ async function fetchUserData() {
                 if(data.profile_image)
                 {
                     // Using fetch to request the image
-                    fetch(`http://localhost:8080/index.php?request=get_image&image=${data.profile_image}`,{
+                    fetch(`https://localhost:8080/index.php?request=get_image&image=${data.profile_image}`,{
                         method: 'GET'
                     })
                     .then(response => {
@@ -77,7 +77,7 @@ document.getElementById('logout-btn').addEventListener('click',  async function(
 
     try {
         // Make the API call to logout
-        const response = await fetch('http://localhost:8080/index.php?request=logout', {
+        const response = await fetch('https://localhost:8080/index.php?request=logout', {
             method: 'POST', // POST request for logout
             headers: {
                 'Content-Type': 'application/json',

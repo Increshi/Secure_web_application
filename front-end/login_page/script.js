@@ -1,5 +1,5 @@
 // Simulated API Calls
-const apiBaseUrl = 'http://localhost:8080/index.php'; // Replace with your actual API endpoint
+const apiBaseUrl = 'https://localhost:8080/index.php'; // Replace with your actual API endpoint
 
 // Clear form fields
 window.onload = function() {

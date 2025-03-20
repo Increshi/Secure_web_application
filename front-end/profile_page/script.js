@@ -16,7 +16,7 @@ const token = sessionStorage.getItem('auth_token');
 // Fetch current profile data
 
 function fetchProfile() {
-    fetch(`http://localhost:8080/index.php?request=get_profile`, {
+    fetch(`https://localhost:8080/index.php?request=get_profile`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`, // Send token in the authorization header
@@ -62,7 +62,7 @@ profileForm.addEventListener('submit', (event) => {
         formData.append('profile_image', image);
     }
 
-    fetch('http://localhost:8080/index.php?request=update_profile', {
+    fetch('https://localhost:8080/index.php?request=update_profile', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`, // Ensure token is included in the header
@@ -92,7 +92,7 @@ profileForm.addEventListener('submit', (event) => {
 
 // Fetch list of other users' profiles
 function fetchOtherProfiles() {
-    fetch(`http://localhost:8080/index.php?request=get_profile&user_id=ALL`, {
+    fetch(`https://localhost:8080/index.php?request=get_profile&user_id=ALL`, {
         headers: {
             'Authorization': `Bearer ${token}`, // Send token in the authorization header
         }
@@ -124,7 +124,7 @@ function fetchOtherProfiles() {
 
 function fetchProfileImage(profile_image) {
     if (profile_image && profile_image !== '../images/user_image.jpg') {
-        return fetch(`http://localhost:8080/index.php?request=get_image&image=${profile_image}`, { 
+        return fetch(`https://localhost:8080/index.php?request=get_image&image=${profile_image}`, { 
             method: 'GET'
         })
         .then(response => {

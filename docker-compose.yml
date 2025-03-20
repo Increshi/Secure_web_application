@@ -63,7 +63,7 @@ services:
     build: ./backend
     container_name: php_backend
     ports:
-      - "8080:80"
+      - "8080:443"
     depends_on:
       - db
     env_file:
@@ -90,7 +90,7 @@ services:
     build: ./front-end
     container_name: frontend_app
     ports:
-      - "443:443"  # Expose HTTPS port 443
+      - "3000:443"  # Expose HTTPS port 443
     volumes:
       - ./front-end:/usr/share/nginx/html
     depends_on:

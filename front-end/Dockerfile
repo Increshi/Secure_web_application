@@ -12,4 +12,4 @@ COPY ./ssl_certificate/private.key /etc/nginx/ssl/private.key
 COPY ./ /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 443

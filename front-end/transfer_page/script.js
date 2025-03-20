@@ -24,7 +24,7 @@ document.getElementById('search-btn').addEventListener('click', () => {
 
 // Function to search users
 function searchUsers(query) {
-    const apiUrl = `http://localhost:8080/index.php?request=search_user&query=${query}`;
+    const apiUrl = `https://localhost:8080/index.php?request=search_user&query=${query}`;
 
     const token = sessionStorage.getItem('auth_token');
 
@@ -107,7 +107,7 @@ document.getElementById('transfer-btn').addEventListener('click', () => {
 // Function to handle money transfer
 function transferMoney(receiverId, amount, comment) {
     // Mock API URL for transfer (replace with real API URL)
-    const apiUrl = `http://localhost:8080/index.php?request=transfer_money`;
+    const apiUrl = `https://localhost:8080/index.php?request=transfer_money`;
 
     // Ensure the amount is a positive number
     if (amount <= 0) {
@@ -152,7 +152,7 @@ function transferMoney(receiverId, amount, comment) {
 
 // Fetch transaction history
 function fetchTransactionHistory(token) {
-    fetch('http://localhost:8080/index.php?request=transaction_history', {
+    fetch('https://localhost:8080/index.php?request=transaction_history', {
         headers: {
             'Authorization': `Bearer ${token}`, // Send token in the authorization header
         }

@@ -1,6 +1,6 @@
 <?php
 
-header("Access-Control-Allow-Origin: *"); // Replace with your frontend URL
+header("Access-Control-Allow-Origin: https://localhost:3000"); // Replace with your frontend URL
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
